@@ -128,7 +128,6 @@ class TktTicketController extends Controller
             [
                 'idcategory' => 'required|integer|exists:tkt_categories,id',
                 'idpriority' => 'required|integer|exists:tkt_priorities,id',
-                'idtechnician' => 'nullable|integer|exists:usuarios,id',
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
             ],
@@ -139,8 +138,6 @@ class TktTicketController extends Controller
                 'idpriority.required' => 'La prioridad es obligatoria',
                 'idpriority.integer' => 'La prioridad debe ser un número entero',
                 'idpriority.exists' => 'La prioridad seleccionada no existe',
-                'idtechnician.integer' => 'El técnico asignado debe ser un número entero',
-                'idtechnician.exists' => 'El técnico asignado no existe',
                 'title.required' => 'El título es obligatorio',
                 'title.string' => 'El título debe ser una cadena de texto',
                 'title.max' => 'El título no puede exceder los 255 caracteres',
@@ -160,6 +157,17 @@ class TktTicketController extends Controller
             $validated['idstatus'] = 1; // Asignar un estado inicial,
         } else {
             $validated['idstatus'] = 3; // Asignado
+        }
+
+        // Buscar el técnico asignado a la categoría y asignarlo automáticamente
+        if (!isset($validated['idtechnician']) || $validated['idtechnician'] == null) {
+            $categoryTechnician = \DB::table('tkt_category_technicians')
+                ->where('idcategory', $validated['idcategory'])
+                ->first();
+            if ($categoryTechnician) {
+                $validated['idtechnician'] = $categoryTechnician->idtechnician;
+                $validated['idstatus'] = 3; // Asignado
+            }
         }
 
         $validated['date_opened'] = now()->toDateTimeString();
