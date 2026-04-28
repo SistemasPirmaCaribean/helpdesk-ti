@@ -56,7 +56,7 @@
             <v-divider :thickness="1" color="white" inset></v-divider>
 
             <!-- ✅ GRUPO: RELACIONES LABORALES -->
-            <v-list-group value="catalogosTickets" expand-icon="mdi-chevron-down" collapse-icon="mdi-chevron-up" transition="expand-transition">
+            <v-list-group value="catalogosTickets" v-if="idperfil == '1'" expand-icon="mdi-chevron-down" collapse-icon="mdi-chevron-up" transition="expand-transition">
                 <template #activator="{ props }">
                     <v-list-item
                         v-bind="props"
@@ -142,12 +142,7 @@
             <v-divider :thickness="1" color="white" inset></v-divider>
             <v-list-group value="tickets" expand-icon="mdi-chevron-down" collapse-icon="mdi-chevron-up" transition="expand-transition">
                 <template #activator="{ props }">
-                    <v-list-item
-                        v-bind="props"
-                        title="Tickets"
-                        prepend-icon="mdi-ticket"
-                        style="font-size: 1.2rem; font-weight: 700; color: white"
-                    />
+                    <v-list-item v-bind="props" title="Tickets" prepend-icon="mdi-ticket" style="font-size: 1.2rem; font-weight: 700; color: white" />
                 </template>
 
                 <v-expand-transition>
@@ -168,8 +163,6 @@
                                 />
                             </v-hover>
                         </Link>
-
-                        
                     </div>
                 </v-expand-transition>
             </v-list-group>
@@ -301,6 +294,8 @@ const accidentesSinValidarFecha = ref<any[]>([]);
 const accidentesSinValidarYImplementados = ref<any[]>([]);
 const planesAccionesProximosAVencer = ref<any[]>([]);
 const planesAccionesVencidos = ref<any[]>([]);
+
+const idperfil = ref<string>(user.idperfil || '');
 
 if (user && user.last_access) {
     const date = new Date(user.last_access);

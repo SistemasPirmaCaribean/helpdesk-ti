@@ -67,7 +67,7 @@ class TktTicketClaimsController extends Controller
     }
 
     public function approve($id, Request $request)
-    {   
+    {
         $validated = $request->validate([
             'idtechnician' => 'nullable|integer|exists:usuarios,id'
         ]);
@@ -131,7 +131,7 @@ class TktTicketClaimsController extends Controller
 
     public function rejectUnclaim($id)
     {
-        
+
 
         DB::transaction(function () use ($id) {
 

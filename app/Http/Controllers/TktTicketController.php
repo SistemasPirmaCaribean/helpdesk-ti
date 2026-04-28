@@ -218,7 +218,7 @@ class TktTicketController extends Controller
         if (isset($validated['idtechnician']) && $validated['idtechnician'] != null) {
             $validated['idstatus'] = 3; // Asignado
         }
-
+ 
         if (!isset($validated['idtechnician']) && $validated['idtechnician'] == null) {
             $validated['idstatus'] = 1; // Abierto
         }
